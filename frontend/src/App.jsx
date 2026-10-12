@@ -7,6 +7,7 @@ import Hero from './components/Hero.jsx';
 import Services from './components/Services.jsx';
 import About from './components/About.jsx';
 import Process from './components/Process.jsx';
+import Providers from './components/Providers.jsx';
 import Contact from './components/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import WhatsAppButton from './components/WhatsAppButton.jsx';
@@ -71,6 +72,7 @@ export default function App() {
         <Services services={services} onRequest={requestService} />
         <About company={company} highlights={highlights} />
         <Process steps={process} />
+        <Providers services={services} />
         <Contact
           company={company}
           services={services}

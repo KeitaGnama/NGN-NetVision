@@ -24,6 +24,7 @@ function normalizeContent(data) {
       benefits: list(s.benefits),
       idealFor: list(s.idealFor),
       faq: list(s.faq),
+      providers: list(s.providers),
     })),
   };
 }

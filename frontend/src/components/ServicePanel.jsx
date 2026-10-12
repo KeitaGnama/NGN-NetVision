@@ -82,7 +82,7 @@ export default function ServicePanel({ service: s, onClose, onRequest }) {
           </PanelSection>
 
           {s.benefits?.length > 0 && (
-            <PanelSection title="Beneficios para tu empresa">
+            <PanelSection title={s.benefitsTitle || 'Beneficios para tu empresa'}>
               <ul className="benefit-list">
                 {s.benefits.map((b) => (
                   <li key={b}>
@@ -215,8 +215,8 @@ function FeatureModal({ service: s, feature: f, onBack, onRequest }) {
         <div className="service-panel__body">
           {f.description && <p className="service-panel__lead">{f.description}</p>}
 
-          {f.includes.length > 0 && (
-            <PanelSection title="Elige lo que necesitas">
+          {(
+            <PanelSection title={f.includes.length > 0 ? 'Elige lo que necesitas' : '¿Algo en particular?'}>
               <div className="option-list">
                 {f.includes.map((option) => {
                   const on = selected.includes(option);
@@ -262,7 +262,9 @@ function FeatureModal({ service: s, feature: f, onBack, onRequest }) {
               </div>
               <p className="service-panel__hint">
                 {total === 0
-                  ? 'Selecciona una o varias opciones para tu cotización.'
+                  ? f.includes.length > 0
+                    ? 'Selecciona una o varias opciones para tu cotización.'
+                    : 'Marca "Otro" para contarnos tu caso, o da clic en Cotizar.'
                   : `${total} ${total === 1 ? 'opción seleccionada' : 'opciones seleccionadas'}`}
               </p>
             </PanelSection>

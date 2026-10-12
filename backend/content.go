@@ -35,9 +35,17 @@ type Service struct {
 	Features     []Feature `json:"features"`
 	Technologies []string  `json:"technologies"`
 	// Información extra que se muestra en el panel de "Ver detalles".
-	Benefits []string `json:"benefits"`
-	IdealFor []string `json:"idealFor"`
-	FAQ      []FAQ    `json:"faq"`
+	Benefits      []string `json:"benefits"`
+	BenefitsTitle string   `json:"benefitsTitle"` // opcional; por defecto "Beneficios para tu empresa"
+	IdealFor      []string `json:"idealFor"`
+	FAQ           []FAQ    `json:"faq"`
+	// Proveedores que se muestran en la sección "Nuestros proveedores".
+	Providers []Provider `json:"providers"`
+}
+
+type Provider struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
 
 // Feature es cada elemento de "¿Qué incluye?". Al darle clic se abre una
@@ -143,6 +151,15 @@ var siteContent = SiteContent{
 				},
 			},
 			Technologies: []string{"React", "Go", "Node.js", "Flutter", "PostgreSQL", "Docker", "AWS"},
+			Providers: []Provider{
+				{Name: "AWS", Description: "Servidores y servicios en la nube"},
+				{Name: "Docker", Description: "Contenedores para desplegar aplicaciones"},
+				{Name: "PostgreSQL", Description: "Bases de datos confiables"},
+				{Name: "React", Description: "Interfaces web modernas"},
+				{Name: "Go", Description: "Backends rápidos y seguros"},
+				{Name: "Node.js", Description: "APIs y servicios web"},
+				{Name: "Flutter", Description: "Apps para iOS y Android"},
+			},
 			Benefits: []string{
 				"Automatiza tareas repetitivas y reduce errores manuales",
 				"Información de tu negocio centralizada y en tiempo real",
@@ -162,51 +179,91 @@ var siteContent = SiteContent{
 			Title:       "Redes y Telecomunicaciones",
 			Subtitle:    "Infraestructura y conectividad empresarial",
 			Summary:     "Diseño, instalación y soporte de redes de datos, fibra óptica, Wi-Fi empresarial y videovigilancia.",
-			Description: "Construimos la infraestructura sobre la que corre tu operación. Desde el cableado estructurado hasta la seguridad perimetral, entregamos redes estables, rápidas y monitoreadas.",
+			Description: "Diseñamos, instalamos y mantenemos la infraestructura de red de tu negocio para que tu equipo trabaje sin interrupciones, de forma rápida y segura.",
 			Features: []Feature{
 				{
-					Title:       "Cableado estructurado certificado",
-					Description: "Instalación ordenada y certificada de la red de datos de tu edificio, la base para una conexión estable durante muchos años.",
-					Time:        "1 a 3 semanas",
-					Includes:    []string{"Cableado categoría 6 y 6A", "Racks, gabinetes y organizadores", "Certificación de cada punto de red", "Etiquetado y planos de la instalación", "Reordenamiento de cableado existente", "Instalación eléctrica regulada y UPS"},
+					Title:       "Redes empresariales",
+					Description: "Instalamos y configuramos tu red desde cero o reorganizamos la que ya tienes.",
+					Includes: []string{
+						"Cableado estructurado Cat6, racks y etiquetado profesional",
+						"Configuración de switches y routers",
+						"Segmentación de red (VLANs) para oficina, invitados, cámaras y telefonía",
+					},
 				},
 				{
-					Title:       "Redes LAN/WAN y Wi-Fi empresarial",
-					Description: "Diseñamos redes internas y enlaces entre sucursales, con Wi-Fi de cobertura total y acceso controlado para empleados e invitados.",
-					Time:        "1 a 2 semanas",
-					Includes:    []string{"Estudio de cobertura Wi-Fi", "Red separada para invitados", "Conexión segura entre sucursales (VPN)", "Administración centralizada de equipos", "Portal cautivo con registro de visitantes", "Wi-Fi para exteriores y naves industriales"},
+					Title:       "Wi-Fi empresarial",
+					Description: "Cobertura estable en toda tu oficina, restaurante, hotel o bodega.",
+					Includes: []string{
+						"Estudio de cobertura",
+						"Instalación de access points con conexión continua al moverte",
+						"Red de invitados separada y portal de acceso personalizado",
+					},
 				},
 				{
-					Title:       "Instalación y fusión de fibra óptica",
-					Description: "Enlaces de fibra óptica de alta velocidad entre edificios, pisos o naves, inmunes a interferencias eléctricas.",
-					Time:        "3 días a 3 semanas",
-					Includes:    []string{"Tendido aéreo, subterráneo o interior", "Fusión y conectorización", "Pruebas con OTDR y medición de pérdidas", "Reparación de enlaces dañados", "Enlaces entre edificios o naves", "Distribuidores y charolas de fibra"},
+					Title:       "Seguridad de red",
+					Description: "Protegemos tu información y tu conexión.",
+					Includes: []string{
+						"Firewall y filtrado de contenido",
+						"VPN para trabajo remoto",
+						"Conexión segura entre sucursales",
+					},
 				},
 				{
-					Title:       "Configuración de routers, switches y firewalls",
-					Description: "Configuramos y aseguramos tus equipos de red para que funcionen al máximo y estén protegidos contra amenazas.",
-					Time:        "2 a 10 días",
-					Includes:    []string{"Segmentación de la red (VLANs)", "Firewall y filtrado de contenido", "Balanceo de varios proveedores de internet", "Control de ancho de banda", "Acceso remoto seguro para empleados", "Auditoría de seguridad de la red"},
+					Title:       "Internet sin interrupciones",
+					Description: "Tu negocio siempre conectado.",
+					Includes: []string{
+						"Doble proveedor de internet con respaldo automático",
+						"Respaldo con 4G/5G",
+						"Balanceo de carga entre enlaces",
+					},
 				},
 				{
-					Title:       "CCTV y videovigilancia IP",
-					Description: "Sistemas de cámaras en alta definición que puedes revisar desde tu celular, con grabación continua y detección inteligente.",
-					Time:        "2 a 7 días",
-					Includes:    []string{"Cámaras IP de alta definición", "Grabación en NVR o en la nube", "Visualización remota desde el celular", "Detección de movimiento y alertas", "Visión nocturna y cámaras para exterior", "Control de acceso y videoporteros"},
+					Title:       "Enlaces inalámbricos",
+					Description: "Conectamos edificios, naves o bodegas sin necesidad de cableado entre ellos.",
 				},
 				{
-					Title:       "Telefonía IP y enlaces dedicados",
-					Description: "Comunicación de voz moderna sobre tu red de datos y conexiones a internet dedicadas con velocidad garantizada.",
-					Time:        "1 a 2 semanas",
-					Includes:    []string{"Conmutador IP (PBX) y extensiones", "Menú de bienvenida (IVR)", "Extensiones en celular y computadora", "Enlaces simétricos con respaldo", "Grabación de llamadas", "Portabilidad de tus números actuales"},
+					Title: "Telefonía IP",
+					Includes: []string{
+						"Conmutadores IP, extensiones y menú de bienvenida (IVR)",
+						"Llamadas claras y estables con calidad de servicio configurada",
+					},
+				},
+				{
+					Title: "Videovigilancia IP",
+					Includes: []string{
+						"Instalación de cámaras IP con red dedicada",
+						"Acceso remoto seguro desde tu celular",
+					},
+				},
+				{
+					Title:       "Diagnóstico de red",
+					Description: "¿Tu internet está lento o se cae? Revisamos tu red, encontramos el problema y te entregamos un reporte con soluciones.",
+				},
+				{
+					Title:       "Soporte y mantenimiento mensual",
+					Description: "Olvídate de los problemas de red con nuestras pólizas de soporte:",
+					Includes: []string{
+						"Monitoreo de tu red",
+						"Soporte remoto",
+						"Visitas programadas y atención a fallas",
+					},
 				},
 			},
 			Technologies: []string{"Cisco", "MikroTik", "Ubiquiti", "Fortinet", "Fibra óptica", "VoIP"},
+			Providers: []Provider{
+				{Name: "Cisco", Description: "Switches, routers y seguridad empresarial"},
+				{Name: "MikroTik", Description: "Routers y enrutamiento"},
+				{Name: "Ubiquiti", Description: "Wi-Fi y enlaces inalámbricos"},
+				{Name: "Fortinet", Description: "Firewalls y seguridad de red"},
+				{Name: "Palo Alto Networks", Description: "Firewalls de nueva generación y ciberseguridad"},
+				{Name: "Meraki", Description: "Redes administradas desde la nube"},
+			},
+			BenefitsTitle: "¿Por qué elegirnos?",
 			Benefits: []string{
-				"Conexión estable y rápida en todas tus áreas",
-				"Menos caídas de red y tiempos de inactividad",
-				"Protección contra accesos no autorizados",
-				"Infraestructura documentada y lista para crecer",
+				"Personal certificado en Cisco (CCNA)",
+				"Soluciones a la medida de tu negocio y presupuesto",
+				"Instalaciones limpias, ordenadas y documentadas",
+				"Atención directa y rápida",
 			},
 			IdealFor: []string{"Oficinas y corporativos", "Naves industriales", "Escuelas", "Hoteles y comercios"},
 			FAQ: []FAQ{
@@ -221,53 +278,109 @@ var siteContent = SiteContent{
 			Title:       "Rastreo Vehicular GPS",
 			Subtitle:    "Control total de tu flotilla",
 			Summary:     "Ubicación en tiempo real, historial de rutas, geocercas y alertas para proteger y optimizar tus vehículos.",
-			Description: "Instalamos dispositivos GPS y te damos una plataforma web y móvil para saber dónde está cada unidad, cómo se conduce y cuánto consume. Más seguridad, menos costos operativos.",
+			Description: "Seguimiento, supervisión y gestión remota en tiempo real de vehículos, contenedores, activos y personas. Administra todas tus unidades desde una sola plataforma web y app móvil, conectado con tu empresa 24/7.",
 			Features: []Feature{
 				{
-					Title:       "Ubicación en tiempo real",
-					Description: "Ve en el mapa dónde está cada una de tus unidades en este momento, con actualizaciones cada pocos segundos.",
-					Time:        "Instalación en 1 día",
-					Includes:    []string{"Actualización cada 10 segundos", "Vista de toda la flotilla en un mapa", "Estado de la unidad: encendida, detenida o en movimiento", "Compartir ubicación con tus clientes", "Vista de calle y tráfico en tiempo real", "Rastreo de remolques y cajas secas"},
+					Title:       "Mapa en tiempo real",
+					Description: "Consulta tus unidades, geocercas, recorridos y eventos sobre un mapa detallado que muestra el estado y la condición de cada una en tiempo real.",
+					Includes: []string{
+						"Ubicación y estado de cada unidad",
+						"Geocercas y recorridos en el mapa",
+						"Marcadores de eventos",
+						"Detección de la ubicación del dispositivo",
+					},
 				},
 				{
-					Title:       "Historial de rutas y reportes",
-					Description: "Consulta los recorridos de cualquier día y recibe reportes automáticos de la actividad de tu flotilla.",
-					Time:        "Disponible desde el primer día",
-					Includes:    []string{"Reproducción de recorridos", "Kilometraje y tiempo de manejo", "Paradas y tiempos de espera", "Reportes en PDF y Excel por correo", "Historial guardado hasta 12 meses", "Reportes por operador y por unidad"},
+					Title:       "Lista de trabajo",
+					Description: "Controla en tiempo real los parámetros de movimiento, encendido y ubicación de tus unidades, y qué tan actualizados están sus datos.",
+					Includes: []string{
+						"Movimiento de las unidades",
+						"Encendido y apagado (ignición)",
+						"Ubicación actual",
+						"Actualidad de los datos",
+					},
 				},
 				{
-					Title:       "Geocercas y alertas instantáneas",
-					Description: "Define zonas en el mapa y recibe un aviso cuando una unidad entra, sale o se desvía de su ruta.",
-					Time:        "Configuración en 1 día",
-					Includes:    []string{"Zonas ilimitadas en el mapa", "Alertas por app, SMS y correo", "Aviso de desvío de ruta", "Alertas fuera de horario laboral", "Aviso de llegada a clientes", "Alerta por desconexión del equipo GPS"},
+					Title:       "Geocercas",
+					Description: "Crea zonas de acuerdo con tus necesidades y ve en qué geocerca está cada unidad en lugar de su dirección.",
+					Includes: []string{
+						"Geocercas personalizadas",
+						"Ubicación por geocerca o por dirección",
+					},
 				},
 				{
-					Title:       "Paro de motor remoto",
-					Description: "Detén una unidad a distancia en caso de robo, de forma segura y solo con autorización.",
-					Time:        "Instalación en 2 a 3 horas",
-					Includes:    []string{"Activación desde la app o la plataforma", "Bloqueo seguro a baja velocidad", "Botón de pánico para el operador", "Apoyo en la recuperación de la unidad", "Sensor de apertura de puertas", "Micrófono para escucha remota en cabina"},
+					Title:       "Historial de recorridos",
+					Description: "Revisa en orden cronológico los eventos de cada unidad y visualízalos en el mapa.",
+					Includes: []string{
+						"Viajes",
+						"Estacionamientos",
+						"Llenados y descargas de combustible",
+					},
 				},
 				{
-					Title:       "Control de velocidad y combustible",
-					Description: "Vigila cómo se manejan tus vehículos y cuánto combustible consumen para reducir gastos y riesgos.",
-					Time:        "Instalación en 1 día",
-					Includes:    []string{"Alertas por exceso de velocidad", "Detección de frenadas y aceleraciones bruscas", "Sensor de nivel de combustible", "Aviso de cargas o descargas sospechosas", "Calificación de manejo por operador", "Control de tiempo en ralentí (motor encendido detenido)"},
+					Title:       "Informes y estadísticas",
+					Description: "Informes operativos y estadísticos, con gráficas detalladas, para analizar patrones y tomar mejores decisiones.",
+					Includes: []string{
+						"Viajes y paradas",
+						"Llenados y descargas de combustible",
+						"Comportamiento del conductor y del vehículo",
+						"Horas de trabajo",
+					},
+				},
+				{
+					Title:       "Comandos remotos",
+					Description: "Gestiona tus unidades a distancia con comandos totalmente personalizados.",
+					Includes: []string{
+						"Envío de mensajes y rutas",
+						"Solicitud de configuración",
+						"Solicitud de instantáneas",
+					},
+				},
+				{
+					Title:       "Alertas y eventos personalizados",
+					Description: "Crea eventos predefinidos y recibe alertas en tiempo real desde cualquier lugar y en cualquier momento.",
+					Includes: []string{
+						"Exceso de velocidad en un área específica",
+						"Apertura de la puerta de carga fuera de la zona autorizada",
+						"Notificaciones a la medida de tu operación",
+						"Parámetros de seguridad y mejora continua",
+					},
 				},
 				{
 					Title:       "Plataforma web y app móvil",
-					Description: "Controla toda tu flotilla desde la computadora o el celular, con acceso para todo tu equipo.",
-					Time:        "Acceso inmediato",
-					Includes:    []string{"Acceso las 24 horas desde cualquier lugar", "Usuarios con distintos permisos", "Recordatorios de mantenimiento", "Integración con tus sistemas vía API", "Capacitación para tu equipo", "Soporte técnico 24/7"},
+					Description: "Plataforma web y app para Android y iOS: monitorea y controla tu operación las 24 horas, los 365 días del año, desde cualquier computadora o celular.",
+					Includes: []string{
+						"Alertas en tiempo real",
+						"Ubicación de tus dispositivos",
+						"Detalles de cada dispositivo",
+						"Lista de notificaciones con su detalle y ubicación",
+					},
+				},
+				{
+					Title:       "Contenedores, carga y activos",
+					Description: "Seguimiento y gestión de contenedores, mercancías, maquinaria y otros activos.",
+					Includes: []string{
+						"GPS para contenedores",
+						"Seguimiento y gestión de mercancías",
+						"Monitoreo satelital",
+						"Candado inteligente que reporta",
+					},
+				},
+				{
+					Title:       "Localizador personal",
+					Description: "Seguimiento en tiempo real de tu personal para su protección.",
 				},
 			},
-			Technologies: []string{"GPS/GNSS", "4G LTE", "Plataforma web", "App móvil", "Alertas SMS/Email", "API"},
+			Technologies: []string{"GPS/GNSS", "Monitoreo satelital", "Plataforma web", "App Android e iOS", "Candado inteligente"},
+			// Proveedores de GPS por definir: mientras esté vacío se muestra "Próximamente".
+			Providers: []Provider{},
 			Benefits: []string{
-				"Reduce robos y facilita la recuperación de unidades",
-				"Ahorro en combustible al optimizar rutas",
-				"Mejores hábitos de manejo de tus operadores",
-				"Reportes automáticos para tomar mejores decisiones",
+				"Conectado con tu empresa 24/7, los 365 días del año",
+				"Todas tus unidades en una sola plataforma",
+				"Información en tiempo real en todos tus dispositivos",
+				"Datos para tomar mejores decisiones y mejorar la seguridad",
 			},
-			IdealFor: []string{"Flotillas de reparto", "Transporte de carga", "Empresas de servicio en campo", "Vehículos particulares"},
+			IdealFor: []string{"Flotillas de reparto", "Transporte de carga y mercancías", "Contenedores y maquinaria", "Protección de personal"},
 			FAQ: []FAQ{
 				{Question: "¿Cuánto tarda la instalación?", Answer: "Entre 1 y 2 horas por vehículo. Podemos instalar en tus instalaciones para no afectar tu operación."},
 				{Question: "¿Puedo ver mis unidades desde el celular?", Answer: "Sí. Tienes acceso a la plataforma web y a la app móvil las 24 horas."},
